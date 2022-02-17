@@ -1,0 +1,12 @@
+apt-transport-https
+openssh-server
+qemu-user-static
+thunderbird
+thunderbird-locale-de
+gparted
+p7zip-full
+curl
+gsmartcontrol
+cifs-utils
+samba
+xrdp
