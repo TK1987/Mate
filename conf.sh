@@ -18,7 +18,7 @@ cd $HOME/mate-conf
 wget -c --quiet --show-progress ${FILES[@]}
 
 # Resume Variable für Swap setzen
-lsblk -lno uuid,fstype |awk '$2 ~ "^swap" {print "RESUME=UUID="$1}'| sudo tee /etc/initramfs-tools/conf.d/resume
+sudo bash -c 'lsblk -lno uuid,fstype |awk \'$2 ~ "^swap" {print "RESUME=UUID="$1}\' >> /etc/initramfs-tools/conf.d/resume'
 
 # Apport deaktivieren
 sudo sed -i -E 's#^(enabled=).*$#\10#' /etc/default/apport
