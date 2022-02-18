@@ -67,7 +67,7 @@
 		</key>
 		<key name="icon-size" type="i">
 			<range min="24" max="128"/>
-			<default>35</default>
+			<default>40</default>
 			<summary>Icon Size</summary>
 			<description>The size of dock items, in pixels.</description>
 		</key>
