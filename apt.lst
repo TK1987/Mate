@@ -4,9 +4,12 @@ qemu-user-static
 thunderbird
 thunderbird-locale-de
 gparted
+keepassxc
+gimp
 p7zip-full
 curl
 gsmartcontrol
 cifs-utils
 samba
 xrdp
+smplayer
