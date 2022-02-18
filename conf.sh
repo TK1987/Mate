@@ -26,7 +26,7 @@ sudo sed -i -E 's#^(enabled=).*$#\10#' /etc/default/apport
 # Konfigurationsdateien an bestimmungsorte schieben
 chmod +x upgrade.sh
 sudo mv upgrade.sh /usr/local/sbin/
-sudo ln -s /usr/local/sbin/upgrade.sh /etc/cron.daily/01_upgrade
+sudo ln -s --force /usr/local/sbin/upgrade.sh /etc/cron.daily/01_upgrade
 sudo mkdir -p /usr/share/plank/themes/TK87
 sudo mv tk87_dock.theme /usr/share/plank/themes/TK87/dock.theme
 sudo mv 40_plank.gschema.override /usr/share/glib-2.0/schemas/
