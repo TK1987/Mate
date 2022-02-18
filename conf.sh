@@ -23,6 +23,14 @@ lsblk -lno uuid,fstype |awk '$2 ~ "^swap" {print "RESUME=UUID="$1}'| sudo tee /e
 # Apport deaktivieren
 sudo sed -i -E 's#^(enabled=).*$#\10#' /etc/default/apport
 
+# Konfigurationsdateien an bestimmungsorte schieben
+chmod +x upgrade.sh
+sudo mv upgrade.sh /usr/local/sbin/
+sudo ln -s /usr/local/sbin/upgrade.sh /etc/cron.daily/01_upgrade
+sudo mkdir -p /usr/share/plank/themes/TK87
+sudo mv tk87_dock.theme /usr/share/plank/themes/TK87/dock.theme
+sudo mv 40_plank.gschema.override /usr/share/glib-2.0/schemas/
+
 # Pakete installieren
 if [ ! -f "apt.lst" ];then 
   exit 1
@@ -58,11 +66,6 @@ sudo sed -i -E "s#^(Window.SetBackground[^ ]+ \()[^\)]+#\10, 0, 0#" /usr/share/p
 
 # Hintergrund von Grub setzen
 sudo sed -i -E "s#^(if background_color )[^;]+#\10,0,0#" /usr/share/plymouth/themes/ubuntu-mate-logo/ubuntu-mate-logo.grub
-
-# Upgrade-Script runterladen und installieren
-sudo wget -O /usr/local/sbin/upgrade.sh raw.github.com/tk1987/bash/master/upgrade.sh
-sudo chmod +x /usr/local/sbin/upgrade.sh
-sudo ln -s /usr/local/sbin/upgrade.sh /etc/cron.daily/01_upgrade
 
 sudo bash -c '
 umask 2227
