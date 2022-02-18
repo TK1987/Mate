@@ -35,7 +35,7 @@
 
 	<schema id="net.launchpad.plank.dock.settings" gettext-domain="plank">
 		<key name="alignment" enum='GtkAlignType'>
-			<default>'start'</default>
+			<default>'fill'</default>
 			<summary>The alignment for the dock along the monitor's edge</summary>
 			<description>Possible values are "fill", "start", "end", and "center".</description>
 		</key>
