@@ -31,11 +31,14 @@ sudo mkdir -p /usr/share/plank/themes/TK87
 sudo mv tk87_dock.theme /usr/share/plank/themes/TK87/dock.theme
 sudo mv 40_plank.gschema.override /usr/share/glib-2.0/schemas/
 
+# Sprachunterstüzung vollständig installieren
+LANGS="hyphen-en-gb hunspell-en-za libreoffice-l10n-en-za libreoffice-help-en-gb hunspell-en-au hyphen-en-ca hunspell-en-gb libreoffice-l10n-en-gb mythes-en-au hunspell-en-ca mythes-de-ch"
+
 # Pakete installieren
 if [ ! -f "apt.lst" ];then 
   exit 1
 fi
-(sudo apt update && cat apt.lst |xargs sudo apt-get upgrade -y) &
+(sudo apt update && cat apt.lst |xargs sudo apt-get upgrade -y $LANGS ) &
 PID=$!
 
 # Panel-Theme setzen
@@ -60,6 +63,11 @@ done
 for THEME in $(ls -d /usr/share/themes/*|grep -ioP "bluementa");do
   gsettings set org.mate.Marco.general theme "$THEME"
 done
+
+# Icon-Theme setzen
+sudo sed -i -E "s#^(Inherits=).*#\1Humanity-Dark,Adwaita,hicolor,mate#" /usr/share/icons/ubuntu-mono-dark/index.theme
+sudo gtk-update-icon-cache /usr/share/icons/ubuntu-mono-dark/
+gsettings set org.mate.interface icon-theme 'ubuntu-mono-dark'
 
 # Hintergrund beim booten / herunterfahren setzen
 sudo sed -i -E "s#^(Window.SetBackground[^ ]+ \()[^\)]+#\10, 0, 0#" /usr/share/plymouth/themes/ubuntu-mate-logo/ubuntu-mate-logo.script
