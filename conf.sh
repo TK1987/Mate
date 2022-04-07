@@ -37,14 +37,17 @@ LANGS=$(check-language-support)
 
 # Pakete installieren
 if [ ! -f "apt.lst" ];then 
-  exit 1
+  return 1
 fi
 (sudo apt update && cat apt.lst |xargs sudo apt-get upgrade -y $LANGS ) &
 PID=$!
 
 # Panel-Theme setzen
 gsettings set org.mate.panel default-layout 'ubuntu-mate'
-mate-panel --reset
+export DISPLAY=:0
+xhost +si:localuser:$( whoami ) >&/dev/null && { 
+  mate-panel --reset
+}
 
 # Hintergrund setzen
 for IMG in $(find /usr/share/backgrounds/|grep andrew|head -n 1);do
