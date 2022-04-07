@@ -72,9 +72,13 @@ done
 gsettings set org.mate.screensaver lock-enabled false
 
 # Icon-Theme setzen
-sudo sed -i -E "s#^(Inherits=).*#\1Humanity-Dark,Adwaita,hicolor,mate,Yaru#" /usr/share/icons/ubuntu-mono-dark/index.theme
-sudo gtk-update-icon-cache /usr/share/icons/ubuntu-mono-dark/
-gsettings set org.mate.interface icon-theme 'ubuntu-mono-dark'
+if [ -d /usr/share/icons/Yaru-dark ];then
+  gsettings set org.mate.interface icon-theme 'Yaru-dark'
+else
+  sudo sed -i -E "s#^(Inherits=).*#\1Humanity-Dark,Adwaita,hicolor,mate,Yaru#" /usr/share/icons/ubuntu-mono-dark/index.theme
+  sudo gtk-update-icon-cache /usr/share/icons/ubuntu-mono-dark/
+  gsettings set org.mate.interface icon-theme 'ubuntu-mono-dark'
+fi
 
 # Hintergrund beim booten / herunterfahren setzen
 sudo sed -i -E "s#^(Window.SetBackground[^ ]+ \()[^\)]+#\10, 0, 0#" /usr/share/plymouth/themes/ubuntu-mate-logo/ubuntu-mate-logo.script
