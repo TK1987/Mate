@@ -68,6 +68,9 @@ for THEME in $(ls -d1 /usr/share/themes/*|grep -ioP "bluementa$|yaru-black$"|hea
   gsettings set org.mate.Marco.general theme "$THEME"
 done
 
+# Bildschirm nicht Sperren, wenn Bildschirmschoner aktiv
+gsettings set org.mate.screensaver lock-enabled false
+
 # Icon-Theme setzen
 sudo sed -i -E "s#^(Inherits=).*#\1Humanity-Dark,Adwaita,hicolor,mate#" /usr/share/icons/ubuntu-mono-dark/index.theme
 sudo gtk-update-icon-cache /usr/share/icons/ubuntu-mono-dark/
