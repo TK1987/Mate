@@ -89,6 +89,9 @@ sudo usermod -aG users $USER
 # Setze für alle User, die neu angelegt werden Extragroups
 sudo sed -i -Ee 's/^#?(EXTRA_GROUPS=).*/\1"dialout cdrom floppy audio video plugdev users sambashare sudo"/' -e 's/#?(ADD_EXTRA_GROUPS=)/\1/'  /etc/adduser.conf
 
+# Konfigurationsordner löschen
+rm -R $HOME\mate-conf
+
 while ps -p $PID >/dev/null; do
   sleep 10
 done
