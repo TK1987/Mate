@@ -104,12 +104,12 @@ sudo usermod -aG users $USER
 sudo sed -i -E -e 's/^#?(EXTRA_GROUPS=).*/\1"dialout cdrom floppy audio video plugdev users sambashare sudo"/'\
   -e 's/#?(ADD_EXTRA_GROUPS=)/\1/'  /etc/adduser.conf
 
-# Konfigurationsordner löschen
-rm -R $HOME/mate-conf
-
 # Profile neu laden
 . /etc/profile
 
 while ps -p $PID >/dev/null; do
   sleep 5
 done
+
+# Konfigurationsordner löschen
+rm -R $HOME/mate-conf
