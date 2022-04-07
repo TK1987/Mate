@@ -91,7 +91,7 @@ sudo bash -c '
 cat << -- > /etc/profile.d/bash_aliases.sh
 #!/bin/bash
 alias cls="clear"
-alias upgrade="sudo /usr/local/sbin/upgrade"
+alias upgrade="sudo /usr/local/sbin/upgrade.sh"
 alias poweroff="sudo /usr/sbin/poweroff"
 alias reboot="sudo /usr/sbin/reboot"
 --
