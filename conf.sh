@@ -107,6 +107,7 @@ sudo sed -i -E -e 's/^#?(EXTRA_GROUPS=).*/\1"dialout cdrom floppy audio video pl
 # Profile neu laden
 . /etc/profile
 
+set +e
 while ps -p $PID >/dev/null; do
   sleep 5
 done
