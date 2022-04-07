@@ -30,6 +30,7 @@ sudo ln -s --force /usr/local/sbin/upgrade.sh /etc/cron.daily/01_upgrade
 sudo mkdir -p /usr/share/plank/themes/TK87
 sudo mv tk87_dock.theme /usr/share/plank/themes/TK87/dock.theme
 sudo mv 40_plank.gschema.override /usr/share/glib-2.0/schemas/
+sudo systemctl disable unattended-upgrades.service update-notifier-download.timer update-notifier-motd.timer
 
 # Sprachunterstüzung vollständig installieren
 LANGS=$(check-language-support)
@@ -77,21 +78,34 @@ sudo sed -i -E "s#^(if background_color )[^;]+#\10,0,0#" /usr/share/plymouth/the
 
 sudo bash -c '
 umask 2227
-cat << -- >> /etc/sudoers.d/010_users
+cat << -- > /etc/sudoers.d/010_users
 Cmnd_Alias POWER = /usr/sbin/reboot, /usr/sbin/poweroff, /usr/local/sbin/upgrade.sh
 %users ALL=(ALL) NOPASSWD: POWER
 --
+'
+
+sudo bash -c '
+cat << -- > /etc/profile.d/bash_aliases.sh
+#!/bin/bash
+alias cls="clear"
+alias upgrade="sudo /usr/local/sbin/upgrade"
+alias poweroff="sudo /usr/sbin/poweroff"
+alias reboot="sudo /usr/sbin/reboot"
 '
 
 # Füge Benutzer zur Gruppe users hinzu
 sudo usermod -aG users $USER
 
 # Setze für alle User, die neu angelegt werden Extragroups
-sudo sed -i -Ee 's/^#?(EXTRA_GROUPS=).*/\1"dialout cdrom floppy audio video plugdev users sambashare sudo"/' -e 's/#?(ADD_EXTRA_GROUPS=)/\1/'  /etc/adduser.conf
+sudo sed -i -E -e 's/^#?(EXTRA_GROUPS=).*/\1"dialout cdrom floppy audio video plugdev users sambashare sudo"/'\
+  -e 's/#?(ADD_EXTRA_GROUPS=)/\1/'  /etc/adduser.conf
 
 # Konfigurationsordner löschen
 rm -R $HOME\mate-conf
 
+# Profile neu laden
+. /etc/profile
+
 while ps -p $PID >/dev/null; do
-  sleep 10
+  sleep 5
 done
