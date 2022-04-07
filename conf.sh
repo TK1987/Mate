@@ -30,7 +30,7 @@ sudo ln -s --force /usr/local/sbin/upgrade.sh /etc/cron.daily/01_upgrade
 sudo mkdir -p /usr/share/plank/themes/TK87
 sudo mv tk87_dock.theme /usr/share/plank/themes/TK87/dock.theme
 sudo mv 40_plank.gschema.override /usr/share/glib-2.0/schemas/
-sudo systemctl disable unattended-upgrades.service update-notifier-download.timer update-notifier-motd.timer
+sudo systemctl disable unattended-upgrades.service update-notifier-download.timer update-notifier-motd.timer 2>/dev/null
 
 # Sprachunterstüzung vollständig installieren
 LANGS=$(check-language-support)
