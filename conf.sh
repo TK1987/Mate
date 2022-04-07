@@ -105,7 +105,7 @@ sudo sed -i -E -e 's/^#?(EXTRA_GROUPS=).*/\1"dialout cdrom floppy audio video pl
   -e 's/#?(ADD_EXTRA_GROUPS=)/\1/'  /etc/adduser.conf
 
 # Konfigurationsordner löschen
-rm -R $HOME\mate-conf
+rm -R $HOME/mate-conf
 
 # Profile neu laden
 . /etc/profile
