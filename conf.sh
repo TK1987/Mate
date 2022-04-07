@@ -32,7 +32,7 @@ sudo mv tk87_dock.theme /usr/share/plank/themes/TK87/dock.theme
 sudo mv 40_plank.gschema.override /usr/share/glib-2.0/schemas/
 
 # Sprachunterstüzung vollständig installieren
-LANGS="hyphen-en-gb hunspell-en-za libreoffice-l10n-en-za libreoffice-help-en-gb hunspell-en-au hyphen-en-ca hunspell-en-gb libreoffice-l10n-en-gb mythes-en-au hunspell-en-ca mythes-de-ch"
+LANGS=$(check-language-support)
 
 # Pakete installieren
 if [ ! -f "apt.lst" ];then 
@@ -55,12 +55,12 @@ done
 sudo glib-compile-schemas /usr/share/glib-2.0/schemas
 
 # GTK-Theme setzen
-for THEME in $(ls -d /usr/share/themes/*|grep -ioP "blackmate$|yaru-black$"|head -n 1);do
+for THEME in $(ls -d1 /usr/share/themes/*|grep -ioP "blackmate$|yaru-black$"|head -n 1);do
   gsettings set org.mate.interface gtk-theme "$THEME"
 done
 
 # Fenster-Theme setzen
-for THEME in $(ls -d /usr/share/themes/*|grep -ioP "bluementa$|yaru-black$"|head -n 1);do
+for THEME in $(ls -d1 /usr/share/themes/*|grep -ioP "bluementa$|yaru-black$"|head -n 1);do
   gsettings set org.mate.Marco.general theme "$THEME"
 done
 
