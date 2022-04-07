@@ -94,6 +94,7 @@ alias cls="clear"
 alias upgrade="sudo /usr/local/sbin/upgrade"
 alias poweroff="sudo /usr/sbin/poweroff"
 alias reboot="sudo /usr/sbin/reboot"
+--
 '
 
 # Füge Benutzer zur Gruppe users hinzu
