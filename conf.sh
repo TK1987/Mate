@@ -70,6 +70,10 @@ for THEME in $(ls -d1 /usr/share/themes/*|grep -ioP "bluementa$|yaru-dark$"|head
   gsettings set org.mate.Marco.general theme "$THEME"
 done
 
+# Persönlichen Ordner und gemountete Partitionen nicht auf Desktop anpinnen
+gsettings set org.mate.caja.desktop home-icon-visible false
+gsettings set org.mate.caja.desktop volumes-visible false
+
 # Bildschirm nicht Sperren, wenn Bildschirmschoner aktiv
 gsettings set org.mate.screensaver lock-enabled false
 
