@@ -74,8 +74,15 @@ done
 gsettings set org.mate.caja.desktop home-icon-visible false
 gsettings set org.mate.caja.desktop volumes-visible false
 
+# Mate-Panel auf Größe=35 pixel setzen.
+gsettings set org.mate.panel.toplevel:/org/mate/panel/toplevels/top/ size 35
+gsettings set org.mate.panel.toplevel:/org/mate/panel/toplevels/bottom/ size 35
+
 # Bildschirm nicht Sperren, wenn Bildschirmschoner aktiv
 gsettings set org.mate.screensaver lock-enabled false
+
+# Willkomennachricht beim start abschalten
+echo -n '{"autostart": false, "hide_non_free": false}' > $HOME/.config/ubuntu-mate/welcome/preferences.json
 
 # Icon-Theme setzen
 if [ -d /usr/share/icons/Yaru-dark ];then
