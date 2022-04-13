@@ -59,12 +59,12 @@ done
 sudo glib-compile-schemas /usr/share/glib-2.0/schemas
 
 # GTK-Theme setzen
-for THEME in $(ls -d1 /usr/share/themes/*|grep -ioP "blackmate$|yaru-black$"|head -n 1);do
+for THEME in $(ls -d1 /usr/share/themes/*|grep -ioP "blackmate$|yaru-dark$"|head -n 1);do
   gsettings set org.mate.interface gtk-theme "$THEME"
 done
 
 # Fenster-Theme setzen
-for THEME in $(ls -d1 /usr/share/themes/*|grep -ioP "bluementa$|yaru-black$"|head -n 1);do
+for THEME in $(ls -d1 /usr/share/themes/*|grep -ioP "bluementa$|yaru-dark$"|head -n 1);do
   gsettings set org.mate.Marco.general theme "$THEME"
 done
 
