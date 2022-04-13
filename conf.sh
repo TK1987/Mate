@@ -44,7 +44,9 @@ PID=$!
 
 # Panel-Theme setzen
 gsettings set org.mate.panel default-layout 'ubuntu-mate'
-export DISPLAY=:0
+if [ -z "$DISPLAY" ];then
+  export DISPLAY=:0.0
+fi
 xhost +si:localuser:$( whoami ) >&/dev/null && { 
   mate-panel --reset
 }
