@@ -1,4 +1,5 @@
 [net.launchpad.plank.dock.settings]
+dock-items "['firefox_firefox.dockitem', 'thunderbird.dockitem', 'libreoffice-calc.dockitem', 'libreoffice-writer.dockitem', 'libreoffice-impress.dockitem', 'caja.dockitem', 'gimp.dockitem', 'smplayer.dockitem', 'mate-calc.dockitem', 'matecc.dockitem', 'trash.dockitem']"
 alignment='fill'
 auto-pinning=true
 current-workspace-only=false
@@ -13,3 +14,4 @@ theme='TK87'
 tooltips-enabled=true
 zoom-enabled=true
 zoom-percent=110
+dc
