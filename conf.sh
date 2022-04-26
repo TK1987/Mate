@@ -14,10 +14,21 @@ set -e
 
 mkdir -p $HOME/mate-conf
 cd $HOME/mate-conf
-cat << -- > askpass.sh && chmod +x askpass.sh && export SUDO_ASKPASS=$HOME/mate-conf/askpass.sh
+cat << -- > sudo_askpass.sh && chmod +x sudo_askpass.sh && export SUDO_ASKPASS=$PWD/sudo_askpass.sh
 #!/bin/bash
 whiptail --passwordbox "\n[sudo] Passwort für \${USER}: " 9 0 3>&1 1>&2 2>&3
 --
+sudo -A cp sudo_askpass.sh /usr/local/sbin/
+if grep -q "SUDO_ASKPASS=" $HOME/.bashrc;then
+  sed -i -E "s#.*(SUDO_ASKPASS=).*#export \1/usr/local/sbin/sudo_askpass.sh#" $HOME/.bashrc
+else
+  echo "export SUDO_ASKPASS=/usr/local/sbin/sudo_askpass.sh" >> $HOME/.bashrc
+fi
+if grep -q "SUDO_ASKPASS=" /etc/skel/.bashrc;then
+  sudo -A sed -i -E "s#.*(SUDO_ASKPASS=).*#export \1/usr/local/sbin/sudo_askpass.sh#" /etc/skel/.bashrc
+else
+  sudo -A bash -c 'echo "export SUDO_ASKPASS=/usr/local/sbin/sudo_askpass.sh" >> /etc/skel/.bashrc'
+fi
 
 # Konfigurationsdateien herunterladen
 wget -c --quiet --show-progress ${FILES[@]}
