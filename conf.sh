@@ -150,7 +150,7 @@ Cmnd_Alias POWER = /usr/sbin/reboot, /usr/sbin/poweroff, /usr/local/sbin/upgrade
 --
 '
 
-sudo -A bash -c '
+sudo -A bash -c $'
 cat << -- > /etc/skel/.bash_aliases
 alias cls="echo -en \'\\ec\'"
 alias upgrade="sudo /usr/local/sbin/upgrade.sh"
@@ -158,6 +158,7 @@ alias poweroff="sudo /usr/sbin/poweroff"
 alias reboot="sudo /usr/sbin/reboot"
 --
 '
+
 cp /etc/skel/.bash_aliases $HOME/.bash_aliases
 . $HOME/.bash_aliases
 
