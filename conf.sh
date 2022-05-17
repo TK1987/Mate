@@ -74,9 +74,14 @@ if [[ $(date -r $HOME/.config/plank/dock1/launchers "+%y%m%d") == $(date "+%y%m%
   rm -r $HOME/.config/plank/dock1/launchers
   cp -r /etc/skel/.config/plank/dock1/launchers $HOME/.config/plank/dock1/
   gsettings set net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/ dock-items "['firefox_firefox.dockitem', 'thunderbird.dockitem', 'libreoffice-calc.dockitem', 'libreoffice-writer.dockitem', 'libreoffice-impress.dockitem', 'caja.dockitem', 'gimp.dockitem', 'smplayer.dockitem', 'mate-calc.dockitem', 'matecc.dockitem', 'trash.dockitem']" 
-  gsettings set net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/ theme "'TK87'" 
-  gsettings set org.mate.session.required-components dock "plank"
 fi
+gsettings set net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/ theme "'TK87'"
+gsettings set org.mate.session.required-components dock "plank"
+gsettings set net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/ hide-mode 'none'
+gsettings set net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/ alignment 'fill'
+gsettings set net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/ zoom-percent '110'
+gsettings set net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/ items-alignment 'start'
+
 
 # Hintergrund setzen
 for IMG in $(find /usr/share/backgrounds/|grep andrew|head -n 1);do
@@ -147,7 +152,7 @@ Cmnd_Alias POWER = /usr/sbin/reboot, /usr/sbin/poweroff, /usr/local/sbin/upgrade
 
 sudo -A bash -c '
 cat << -- > /etc/skel/.bash_aliases
-alias cls="echo -en '\\ec'"
+alias cls="echo -en \'\\ec\'"
 alias upgrade="sudo /usr/local/sbin/upgrade.sh"
 alias poweroff="sudo /usr/sbin/poweroff"
 alias reboot="sudo /usr/sbin/reboot"
