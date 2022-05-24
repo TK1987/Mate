@@ -34,7 +34,7 @@ fi
 wget -c --quiet --show-progress ${FILES[@]}
 
 # Resume Variable für Swap setzen
-sudo -A bash -c $'lsblk -lno uuid,fstype |awk \'$2 ~ "^swap" {print "RESUME=UUID="$1}\' >> /etc/initramfs-tools/conf.d/resume'
+sudo -A bash -c $'lsblk -lno uuid,fstype |awk \'$2 ~ "^swap" {print "RESUME=UUID="$1}\' >>/etc/initramfs-tools/conf.d/resume'
 tput civis
 
 # Apport deaktivieren
@@ -47,9 +47,16 @@ sudo -A ln -s --force /usr/local/sbin/upgrade.sh /etc/cron.daily/01_upgrade
 sudo -A mkdir -p /usr/share/plank/themes/TK87
 sudo -A mv tk87_dock.theme /usr/share/plank/themes/TK87/dock.theme
 sudo -A mv 40_plank.gschema.override /usr/share/glib-2.0/schemas/
-sudo -A systemctl disable unattended-upgrades.service update-notifier-download.timer update-notifier-motd.timer 2>/dev/null
+sudo -A systemctl disable --now unattended-upgrades.service update-notifier-download.timer update-notifier-motd.timer apt-daily-upgrade.{service,timer} 2>/dev/null
 sudo -A mv tk87_panel.layout /usr/share/mate-panel/layouts/tk87.layout
 sudo -A bash -c "echo 'plank' > /usr/share/mate-panel/layouts/tk87.dock"
+
+# Lightdm Gastzugang deaktivieren
+if grep -iE '^(greeter-)?allow-guest' /etc/lightdm/lightdm.conf; then
+  sudo -A sed -i -E 's#^((greeter-)?allow-guest=).*#\1false#g' /etc/lightdm/lightdm.conf
+else
+  sudo -A bash -c ">>/etc/lightdm/lightdm.conf echo -en 'allow-guest=false\ngreeter-allow-guest=false\n'"
+fi
 
 # Sprachunterstüzung vollständig installieren
 LANGS=$(check-language-support)
@@ -81,6 +88,8 @@ gsettings set net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1
 gsettings set net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/ alignment 'fill'
 gsettings set net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/ zoom-percent '110'
 gsettings set net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/ items-alignment 'start'
+gsettings set org.ayatana.indicator.session suppress-restart-menuitem 'false'
+gsettings set org.ayatana.indicator.session suppress-logout-restart-shutdown 'true'
 
 
 # Hintergrund setzen
