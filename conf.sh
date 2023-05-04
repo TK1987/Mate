@@ -72,7 +72,7 @@ gsettings set org.ayatana.indicator.session suppress-logout-restart-shutdown 'tr
 if gsettings get org.mate.background picture-filename|grep -qi "green-wall";then
   IMG=$(find /usr/share/backgrounds -name '*andrew*.jpg')
   if [ ! -z "$IMG" ];then
-    gsettings set org.mate.background picture-filename "$IMG"
+    gsettings set org.mate.background picture-filename "'$IMG'"
     sudo -A sed -i -E "s#^(background=|picture-filename=).*#\1'$IMG'#" /usr/share/glib-2.0/schemas/*
   fi
 fi
