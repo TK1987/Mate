@@ -42,7 +42,7 @@ sudo -A sed -i -E 's#^(enabled=).*$#\10#' /etc/default/apport
 # Nano anpassen - Zeilennummern anzeigen, Tabsize=2, Tabs in Leerzeichen umwandeln
 sudo -A sed -i -E -e 's/^ *# *(set *(linenumbers|tabsize|tabstospaces))/\1/g' -e 's/(set *tabsize )*[0-9]+/\12/g' /etc/nanorc
 
-# Konfigurationsdateien an bestimmungsorte schieben
+# Konfigurationsdateien an Bestimmungsorte schieben
 chmod +x upgrade.sh
 sudo -A mv upgrade.sh /usr/local/sbin/
 sudo -A ln -s --force /usr/local/sbin/upgrade.sh /etc/cron.daily/01_upgrade
@@ -68,18 +68,6 @@ PID=$!
 gsettings set org.ayatana.indicator.session suppress-restart-menuitem 'false'
 gsettings set org.ayatana.indicator.session suppress-logout-restart-shutdown 'true'
 
-# Hintergrund setzen
-if gsettings get org.mate.background picture-filename|grep -qi "green-wall";then
-  IMG=$(find /usr/share/backgrounds -name '*andrew*.jpg')
-  if [ ! -z "$IMG" ];then
-    gsettings set org.mate.background picture-filename "'$IMG'"
-    sudo -A sed -i -E "s#^(background=|picture-filename=).*#\1'$IMG'#" /usr/share/glib-2.0/schemas/*
-  fi
-fi
-
-# Glib-Schemas aktualisieren
-sudo -A glib-compile-schemas /usr/share/glib-2.0/schemas
-
 # Theme setzen
 gsettings set org.mate.interface gtk-theme "Yaru-dark"
 gsettings set org.mate.interface icon-theme 'Yaru-dark'
@@ -91,7 +79,6 @@ gsettings set org.mate.caja.desktop volumes-visible false
 
 # Mate-Panel auf Größe=35 pixel setzen.
 gsettings set org.mate.panel.toplevel:/org/mate/panel/toplevels/top/ size 35
-gsettings set org.mate.panel.toplevel:/org/mate/panel/toplevels/bottom/ size 35
 
 # Bildschirm nicht Sperren, wenn Bildschirmschoner aktiv
 gsettings set org.mate.screensaver lock-enabled false
@@ -101,9 +88,6 @@ if grep -qP "(?<=autologin-user=)${USER}" /etc/lightdm/lightdm.conf; then sudo -
 
 # Willkomennachricht beim start abschalten
 echo -n '{"autostart": false, "hide_non_free": false}' > $HOME/.config/ubuntu-mate/welcome/preferences.json
-
-# Icon-Theme setzen
-
 
 # Hintergrund beim booten / herunterfahren setzen
 sudo -A sed -i -E "s#^(Window.SetBackground[^ ]+ \()[^\)]+#\10, 0, 0#" /usr/share/plymouth/themes/ubuntu-mate-logo/ubuntu-mate-logo.script
@@ -126,6 +110,14 @@ alias cls="echo -en \'\\ec\'"
 alias upgrade="sudo /usr/local/sbin/upgrade.sh"
 alias poweroff="sudo /usr/sbin/poweroff"
 alias reboot="sudo /usr/sbin/reboot"
+--
+'
+
+sudo -A bash -c $'
+cat << -- >> /etc/bash.bashrc
+for SH in /etc/profile.d/*.sh;do
+  source $SH
+done
 --
 '
 
