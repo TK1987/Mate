@@ -26,9 +26,9 @@ systemctl disable unattended-upgrades.service update-notifier-download.timer upd
 
 # Lightdm Gastzugang deaktivieren
 if grep -iqE '^(greeter-)?allow-guest' /etc/lightdm/lightdm.conf; then
-  sudo -A sed -i -E 's#^((greeter-)?allow-guest=).*#\1false#g' /etc/lightdm/lightdm.conf
+  sed -i -E 's#^((greeter-)?allow-guest=).*#\1false#g' /etc/lightdm/lightdm.conf
 else
-  sudo -A bash -c ">>/etc/lightdm/lightdm.conf echo -en 'allow-guest=false\ngreeter-allow-guest=false\n'"
+  bash -c ">>/etc/lightdm/lightdm.conf echo -en 'allow-guest=false\ngreeter-allow-guest=false\n'"
 fi
 
 # Paketliste laden
