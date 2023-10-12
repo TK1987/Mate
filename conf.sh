@@ -23,6 +23,8 @@ sed -i -E 's#^(enabled=).*$#\10#' /etc/default/apport
 # Nano anpassen - Zeilennummern anzeigen, Tabsize=2, Tabs in Leerzeichen umwandeln
 sed -i -E -e 's/^ *# *(set *(linenumbers|tabsize|tabstospaces))/\1/g' -e 's/(set *tabsize )*[0-9]+/\12/g' /etc/nanorc
 
+# plymouth theme aktivieren
+update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/tk87/tk87.plymouth 160
 
 systemctl disable unattended-upgrades.service update-notifier-download.timer update-notifier-motd.timer apt-daily-upgrade.{service,timer} 2>/dev/null
 
@@ -84,6 +86,7 @@ perl -pi -e "s/^((?:gtk|icon)-theme=).*/\1'Yaru-dark'/g" /usr/share/glib-2.0/sch
 perl -pi -e "s/^(home-icon-visible=).*/\1false\nvolumes-visible=false/" /usr/share/glib-2.0/schemas/10_mate-common.gschema.override
 perl -pi -e "s/(\[org.mate.screensaver\])/\1\nlock-enabled=false/g" /usr/share/glib-2.0/schemas/10_mate-common.gschema.override
 perl -pi -e "s/^(lock-enabled=).*/\1false/" /usr/share/glib-2.0/schemas/10_mate-common.gschema.override
+perl -pi -e "s#(picture-filename=|background=).*#\1'/usr/share/backgrounds/ubuntu-mate-common/ubuntu-tk87_blue.jpg'#g" /usr/share/glib-2.0/schemas/{30_ubuntu-mate.gschema.override,20_mate-ubuntu.gschema.override}
 bash -c "cat << -- >> /usr/share/glib-2.0/schemas/30_ubuntu-mate.gschema.override
 
 [org.mate.panel.toplevel]
