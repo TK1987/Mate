@@ -5,7 +5,6 @@ set -e
 
 tput civis
 
-# Groß- und Kleinschreibung bei Bash-Autovervollständigung nicht berücksichtigen
 cat << -- >> /etc/bash.bashrc
 for SH in /etc/profile.d/*.sh;do
   source \$SH
@@ -14,6 +13,8 @@ done
 export SUDO_ASKPASS='/usr/local/sbin/sudo_askpass.sh'
 shopt -s nocaseglob
 --
+
+# Groß- und Kleinschreibung bei Bash-Autovervollständigung nicht berücksichtigen
 perl -pi -e 's/^#(force_color_prompt)/\1/' /etc/skel/.bashrc
 echo "set completion-ignore-case on" >> /etc/inputrc
 
