@@ -29,13 +29,6 @@ update-alternatives --install /usr/share/plymouth/themes/default.plymouth defaul
 
 systemctl disable unattended-upgrades.service update-notifier-download.timer update-notifier-motd.timer apt-daily-upgrade.{service,timer} 2>/dev/null
 
-# Lightdm Gastzugang deaktivieren
-if grep -iqE '^(greeter-)?allow-guest' /etc/lightdm/lightdm.conf; then
-  sed -i -E 's#^((greeter-)?allow-guest=).*#\1false#g' /etc/lightdm/lightdm.conf
-else
-  bash -c ">>/etc/lightdm/lightdm.conf echo -en 'allow-guest=false\ngreeter-allow-guest=false\n'"
-fi
-
 # Paketliste laden
 APT="$(wget -qcO- https://raw.github.com/tk1987/mate/master/apt.lst|xargs) $(check-language-support|xargs) /tmp/teamviewer_amd64.deb"
 
@@ -66,36 +59,6 @@ apt -y full-upgrade $APT
 apt autoremove -y --purge evolution* deja-dup*
 
 # Glib-Schemas setzen
-cat << -- > /usr/share/glib-2.0/schemas/40_plank.override
-[net.launchpad.plank]
-enabled_docks=['dock1']
-
-[net.launchpad.plank.dock.settings]
-alignment='fill'
-dock-items=['desktop.dockitem', 'firefox_firefox.dockitem', 'caja-browser.dockitem', 'matecc.dockitem', 'mate-system-monitor.dockitem', 'mate-terminal.dockitem', 'mate-calc.dockitem', 'clock.dockitem', 'trash.dockitem']
-hide-mode='none'
-icon-size=38
-items-alignment='start'
-position='left'
-theme='Mutiny-dark'
-zoom-enabled=false
---
-perl -pi -e "s/(\[org.mate.session\])/\1\nrequired-components-list=['windowmanager', 'panel', 'filemanager', 'dock']/g" /usr/share/glib-2.0/schemas/10_mate-common.gschema.override
-perl -pi -e  "s/^(default-layout=).*/\1'mutiny'/" /usr/share/glib-2.0/schemas/30_ubuntu-mate.gschema.override
-perl -pi -e 'BEGIN{undef $/;} s|(\[org.ayatana.indicator.session\]).*?(?=\n\n)|\1\nsuppress-restart-menuitem=false\nsuppress-logout-restart-shutdown=true|smg' /usr/share/glib-2.0/schemas/30_ubuntu-mate.gschema.override
-perl -pi -e "s/^((?:gtk|icon)-theme=).*/\1'Yaru-dark'/g" /usr/share/glib-2.0/schemas/20_mate-ubuntu.gschema.override
-perl -pi -e "s/^(home-icon-visible=).*/\1false\nvolumes-visible=false/" /usr/share/glib-2.0/schemas/10_mate-common.gschema.override
-perl -pi -e "s/(\[org.mate.screensaver\])/\1\nlock-enabled=false/g" /usr/share/glib-2.0/schemas/10_mate-common.gschema.override
-perl -pi -e "s/^(lock-enabled=).*/\1false/" /usr/share/glib-2.0/schemas/10_mate-common.gschema.override
-perl -pi -e "s#(picture-filename=|background=).*#\1'/usr/share/backgrounds/ubuntu-mate-common/ubuntu-tk87_blue.jpg'#g" /usr/share/glib-2.0/schemas/{30_ubuntu-mate.gschema.override,20_mate-ubuntu.gschema.override}
-bash -c "cat << -- >> /usr/share/glib-2.0/schemas/30_ubuntu-mate.gschema.override
-
-[org.mate.panel.toplevel]
-expand=true
-screen=0
-size=36
---
-"
 glib-compile-schemas /usr/share/glib-2.0/schemas
 
 # Setze für alle User, die neu angelegt werden Extragroups
